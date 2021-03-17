@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>SVG remove whitespace</title>
     <link rel="stylesheet" href="index.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jszip@3.6.0/dist/jszip.min.js"></script>
 </head>
 <body>
     <input type="file" id="svg-files" multiple accept="image/svg+xml"/>
@@ -15,16 +16,18 @@
     window.addEventListener("load", function () {
         const files = document.getElementById("svg-files")
 
-        files.onchange = function (evt) {
+        files.onchange = async function (evt) {
             if (files.files.length < 0) {
                 alert("You need to select at least 1 file !")
             } else {
+                const zip = new JSZip();
+
                 for (let i = 0; i < files.files.length; i++) {
                     const file = files.files[i];
                     const fileReader = new FileReader();
 
                     fileReader.onload = (() => {
-                        return function(e) {
+                        return function (e) {
                             document.getElementById("svg-convert").innerHTML = e.target.result;
                             const svg = document.getElementsByTagName("svg")[0];
                             const bbox = svg.getBBox();
@@ -33,14 +36,11 @@
                             svg.removeAttribute("height");
                             svg.removeAttribute("width");
                             // Make download svg
-                            const svgBlob = new Blob([svg.outerHTML], {type:"image/svg+xml;charset=utf-8"});
-                            const svgUrl = URL.createObjectURL(svgBlob);
-                            const downloadLink = document.createElement("a");
-                            downloadLink.href = svgUrl;
-                            downloadLink.download = "clean-" + file.name;
-                            document.body.appendChild(downloadLink);
-                            downloadLink.click();
-                            document.body.removeChild(downloadLink);
+                            const svgBlob = new Blob([svg.outerHTML], {type: "image/svg+xml;charset=utf-8"});
+                            zip.file(file.name, svgBlob);
+                            if (Object.keys(zip.files).length === files.files.length) {
+                                download(zip);
+                            }
                             document.getElementById("svg-convert").innerHTML = "";
                         };
                     })(file);
@@ -50,4 +50,15 @@
             }
         }
     })
+
+    function download(zip) {
+        zip.generateAsync({type:"base64"}).then(function (base64) {
+            const downloadLink = document.createElement("a");
+            downloadLink.href = "data:application/zip;base64," + base64;
+            downloadLink.download = "files.zip";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
+    }
 </script>
