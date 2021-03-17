@@ -2,7 +2,7 @@ body {
     text-align: center;
     background-color: rgb(23, 23, 23);
     color: aliceblue;
-    margin-top: 40vh;
+    margin: 40vh 0 0 0;
 }
 
 .hidden {
@@ -41,5 +41,14 @@ input[type='file'] {
 
 #svg-convert {
     margin-top: 20px;
+    text-align: start;
+    margin-left: 0;
+}
+
+#svg-convert * {
+    position: absolute;
+}
+
+svg {
     background-color: aliceblue;
 }

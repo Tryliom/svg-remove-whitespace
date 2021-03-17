@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <title>SVG remove whitespace</title>
     <link rel="stylesheet" href="index.css">
+    <script type="text/javascript" src="https://unpkg.com/canvg@3.0.4/lib/umd.js"></script>
+    <script type="text/javascript" src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
 </head>
 <body>
     <input type="file" id="svg-file" multiple accept="image/svg+xml"/>
     <label class="button" for="svg-file">Select SVG</label>
-    <div id="svg-convert"></div>
+    <div id="svg-convert">
+    </div>
 </body>
 </html>
 <script>
+    let stage, selection, g, sd, r, moveListener;
+    let json = {x: 0, y: 0, width: 0, height: 0};
+
     window.addEventListener("load", function () {
         const files = document.getElementById("svg-file")
 
@@ -20,12 +26,69 @@
             const fileReader = new FileReader();
 
             fileReader.onload = (() => {
-                return function(e) {
+                return async function(e) {
                     document.getElementById("svg-convert").innerHTML = e.target.result;
+                    const svg = document.getElementsByTagName("svg")[0];
+                    const {width, height} = svg.getBoundingClientRect();
+                    const canvas = document.createElement("canvas");
+                    canvas.setAttribute("id", "canvas");
+                    canvas.height = height;
+                    canvas.width = width;
+                    document.getElementById("svg-convert").append(canvas);
+
+                    stage = new createjs.Stage(canvas, {transparent:true});
+                    createjs.Ticker.on("tick", tick);
+
+                    selection = new createjs.Shape();
+                    g = selection.graphics.setStrokeStyle(1).beginStroke("#000").beginFill("rgba(0,0,0,0.05)");
+                    sd = g.setStrokeDash([10,5], 0).command;
+                    r = g.drawRect(0,0,100,100).command;
+
+
+                    stage.on("stagemousedown", dragStart);
+                    stage.on("stagemouseup", dragEnd);
+
+                    window.addEventListener("resize", () => {
+                        const svg = document.getElementsByTagName("svg")[0];
+                        const {width, height} = svg.getBoundingClientRect();
+                        const canvas = getCanvas();
+
+                        canvas.height = height;
+                        canvas.width = width;
+                    });
                 };
             })(file);
 
             fileReader.readAsText(new Blob([file]));
         }
     })
+
+    function dragStart(event) {
+        json = {x: 0, y: 0, width: 0, height: 0};
+        stage.addChild(selection).set({x:event.stageX, y:event.stageY});
+        r.w = 0; r.h = 0;
+        moveListener = stage.on("stagemousemove", drag);
+        json.x = event.stageX / getCanvas().width;
+        json.y = event.stageY / getCanvas().height;
+    };
+
+    function drag(event) {
+        json.width = (r.w = event.stageX - selection.x) / getCanvas().width;
+        json.height = (r.h = event.stageY - selection.y) / getCanvas().height;
+    }
+
+    function dragEnd(event) {
+        stage.off("stagemousemove", moveListener);
+        if (json.width > 0 && json.width > 0)
+            window.prompt("Copy it", JSON.stringify(json));
+    }
+
+    function tick(event) {
+        stage.update(event);
+        sd.offset--;
+    }
+
+    function getCanvas() {
+        return document.getElementById("canvas");
+    }
 </script>
