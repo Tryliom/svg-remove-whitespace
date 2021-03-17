@@ -11,7 +11,7 @@ body {
     overflow: hidden;
 }
 
-#svg-files {
+input[type='file'] {
     width: 0;
     height: 0;
     opacity: 0;
@@ -20,21 +20,26 @@ body {
     z-index: -1;
 }
 
-.file-button {
+.button {
     padding: 10px;
     border: 1pt solid aliceblue;
     background-color: rgb(18, 18, 18);
     color: aliceblue;
     font-size: 30px;
-    text-transform: capitalize;
     font-family: "Century Gothic", serif;
     transition-duration: 0.3s;
     cursor: pointer;
+    margin: 10px;
 }
 
-.file-button:hover {
+.button:hover {
     background-color: aliceblue;
     color: rgb(18, 18, 18);
 
     transition-duration: 0.3s;
+}
+
+#svg-convert {
+    margin-top: 20px;
+    background-color: aliceblue;
 }

@@ -6,46 +6,11 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <input type="file" id="svg-files" multiple accept="image/svg+xml"/>
-    <label class="file-button" for="svg-files">Select & convert files</label>
-    <div class="hidden" id="svg-convert"></div>
+    <a href="svg-converter.html">
+        <input type="button" class="button" value="SVG Converter" />
+    </a>
+    <a href="svg-selector.html">
+        <input type="button" class="button" value="SVG Selector" />
+    </a>
 </body>
 </html>
-<script>
-    window.addEventListener("load", function () {
-        const files = document.getElementById("svg-files")
-
-        files.onchange = function (evt) {
-            if (files.files.length < 0) {
-                alert("You need to select at least 1 file !")
-            } else {
-                for (let i = 0; i < files.files.length; i++) {
-                    const file = files.files[i];
-                    const fileReader = new FileReader();
-
-                    fileReader.onload = (() => {
-                        return function(e) {
-                            document.getElementById("svg-convert").innerHTML = e.target.result;
-                            const svg = document.getElementsByTagName("svg")[0];
-                            const bbox = svg.getBBox();
-                            // Get viewBox without whitespace
-                            svg.setAttribute("viewBox", [bbox.x, bbox.y, bbox.width, bbox.height].join(" "));
-                            // Make download svg
-                            const svgBlob = new Blob([svg.outerHTML], {type:"image/svg+xml;charset=utf-8"});
-                            const svgUrl = URL.createObjectURL(svgBlob);
-                            const downloadLink = document.createElement("a");
-                            downloadLink.href = svgUrl;
-                            downloadLink.download = "clean-" + file.name;
-                            document.body.appendChild(downloadLink);
-                            downloadLink.click();
-                            document.body.removeChild(downloadLink);
-                            document.getElementById("svg-convert").innerHTML = "";
-                        };
-                    })(file);
-
-                    fileReader.readAsText(new Blob([file]));
-                }
-            }
-        }
-    })
-</script>
