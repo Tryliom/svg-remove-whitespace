@@ -73,8 +73,8 @@
     };
 
     function drag(event) {
-        json.width = (r.w = event.stageX - selection.x) / getCanvas().width;
-        json.height = (r.h = event.stageY - selection.y) / getCanvas().height;
+        json.width = Math.abs((r.w = event.stageX - selection.x) / getCanvas().width);
+        json.height = Math.abs((r.h = event.stageY - selection.y) / getCanvas().height);
     }
 
     function dragEnd(event) {
