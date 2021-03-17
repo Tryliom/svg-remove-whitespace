@@ -79,6 +79,17 @@
 
     function dragEnd(event) {
         stage.off("stagemousemove", moveListener);
+
+        if (json.height < 0) {
+            json.y = json.y + json.height;
+            json.height *= -1;
+        }
+
+        if (json.width < 0) {
+            json.x = json.x + json.width;
+            json.width *= -1;
+        }
+        
         if (json.width > 0 && json.width > 0)
             window.prompt("Copy it", JSON.stringify(json));
     }
