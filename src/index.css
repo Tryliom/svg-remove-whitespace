@@ -1,0 +1,40 @@
+body {
+    text-align: center;
+    background-color: rgb(23, 23, 23);
+    color: aliceblue;
+    margin-top: 40vh;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    overflow: hidden;
+}
+
+#svg-files {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.file-button {
+    padding: 10px;
+    border: 1pt solid aliceblue;
+    background-color: rgb(18, 18, 18);
+    color: aliceblue;
+    font-size: 30px;
+    text-transform: capitalize;
+    font-family: "Century Gothic", serif;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.file-button:hover {
+    background-color: aliceblue;
+    color: rgb(18, 18, 18);
+
+    transition-duration: 0.3s;
+}
