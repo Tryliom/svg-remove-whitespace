@@ -99,20 +99,20 @@
     };
 
     function drag(event) {
-        json.width = Math.abs((r.w = event.stageX - selection.x) / getCanvas().width);
-        json.height = Math.abs((r.h = event.stageY - selection.y) / getCanvas().height);
+        json.width = (r.w = event.stageX - selection.x) / getCanvas().width;
+        json.height = (r.h = event.stageY - selection.y) / getCanvas().height;
     }
 
     function dragEnd(event) {
         stage.off("stagemousemove", moveListener);
 
         if (json.height < 0) {
-            json.y = json.y + json.height;
+            json.y += json.height;
             json.height *= -1;
         }
 
         if (json.width < 0) {
-            json.x = json.x + json.width;
+            json.x += json.width;
             json.width *= -1;
         }
 
