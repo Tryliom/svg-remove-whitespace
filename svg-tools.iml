@@ -8,5 +8,6 @@
     <orderEntry type="library" name="canvg" level="application" />
     <orderEntry type="library" name="createjs" level="application" />
     <orderEntry type="library" name="jszip" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

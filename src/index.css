@@ -1,8 +1,11 @@
 body {
     text-align: center;
-    background-color: rgb(23, 23, 23);
+    background-color: rgb(23, 23, 23) !important;
+    margin-top: 20px;
+}
+
+body * {
     color: aliceblue;
-    margin: 40vh 0 0 0;
 }
 
 .hidden {
@@ -30,6 +33,7 @@ input[type='file'] {
     transition-duration: 0.3s;
     cursor: pointer;
     margin: 10px;
+    width: 100%;
 }
 
 .button:hover {

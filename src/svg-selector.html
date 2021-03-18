@@ -6,11 +6,37 @@
     <link rel="stylesheet" href="index.css">
     <script type="text/javascript" src="https://unpkg.com/canvg@3.0.4/lib/umd.js"></script>
     <script type="text/javascript" src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </head>
 <body>
-    <input type="file" id="svg-file" multiple accept="image/svg+xml"/>
-    <label class="button" for="svg-file">Select SVG</label>
-    <div id="svg-convert">
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col-1">
+                <a href="/">
+                    <input type="button" class="button" value="Back" />
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>How to use</h1>
+                <p>
+                    Click and drag your mouse on the svg in order to select a rectangle. You will get the X, Y, width and height in percentage of the image (Percentage of the width for X and width, percentage of height for Y and height) as a json.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 offset-3">
+                <input type="file" id="svg-file" multiple accept="image/svg+xml"/>
+                <label class="button" for="svg-file">Select SVG</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m-0 p-0">
+                <div id="svg-convert"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
@@ -89,7 +115,7 @@
             json.x = json.x + json.width;
             json.width *= -1;
         }
-        
+
         if (json.width > 0 && json.width > 0)
             window.prompt("Copy it", JSON.stringify(json));
     }
